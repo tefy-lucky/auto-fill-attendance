@@ -39,7 +39,7 @@ SAMPLE_RANGE_NAME = 'July 2020!A12:A32'
 row_gf = '12'
 row_me = '32'
 
-column = 'U'  # beginning of column
+column = 'A'  # beginning of column
 COLUMNS = generate_columns(starting_column=column)
 print(COLUMNS)
 
@@ -106,10 +106,10 @@ def main():
     }
     sheet = service.spreadsheets()
     sheet.values().update(spreadsheetId=SAMPLE_SPREADSHEET_ID_input,
-                          range=f'Juillet!{column}{row_gf}:{column}{row_gf}',
+                          range=f'Aout!{column}{row_gf}:{column}{row_gf}',
                           valueInputOption='USER_ENTERED', body=body).execute()
     sheet.values().update(spreadsheetId=SAMPLE_SPREADSHEET_ID_input,
-                          range=f'Juillet!{column}{row_me}:{column}{row_me}',
+                          range=f'Aout!{column}{row_me}:{column}{row_me}',
                           valueInputOption='USER_ENTERED', body=body).execute()
 
 
