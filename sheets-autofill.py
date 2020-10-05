@@ -37,7 +37,7 @@ SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 
 sections = config.sections()
 SAMPLE_SPREADSHEET_ID_input = config["default"]["spreadsheet_id"]
-SAMPLE_RANGE_NAME = "Octobre 2020!A12:A32"
+SHEET_NAME = config["default"]["sheet_name"]
 
 row_gf = "11"
 row_me = "30"
@@ -106,15 +106,30 @@ def main():
     ]
     body = {"values": values}
     sheet = service.spreadsheets()
+
+    # retrieving all our names in the "B" column
+    result = (
+        sheet.values()
+        .get(spreadsheetId=SAMPLE_SPREADSHEET_ID_input, range=f"{SHEET_NAME}!B1:B40")
+        .execute()
+    )
+    names = result.get("values", [])
+    for i, name in enumerate(names):
+        if name:
+            if name[0].find("Edwige") > 0:
+                row_gf = i + 1
+            if name[0].find("Tefy") > 0:
+                row_me = i + 1
+
     sheet.values().update(
         spreadsheetId=SAMPLE_SPREADSHEET_ID_input,
-        range=f"Octobre!{column}{row_gf}:{column}{row_gf}",
+        range=f"{SHEET_NAME}!{column}{row_gf}:{column}{row_gf}",
         valueInputOption="USER_ENTERED",
         body=body,
     ).execute()
     sheet.values().update(
         spreadsheetId=SAMPLE_SPREADSHEET_ID_input,
-        range=f"Octobre!{column}{row_me}:{column}{row_me}",
+        range=f"{SHEET_NAME}!{column}{row_me}:{column}{row_me}",
         valueInputOption="USER_ENTERED",
         body=body,
     ).execute()
